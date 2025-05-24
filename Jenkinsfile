@@ -70,16 +70,13 @@ ${extIp}
                 }
             }
             steps {
-                withCredentials([string(credentialsId: 'bigip-admin-password', variable: 'BIGIP_ADMIN_PASSWORD')]) {
-                    script {
-                        def extraVars = "--extra-vars 'ansible_user=admin ansible_password=${BIGIP_ADMIN_PASSWORD}'"
-                        if (env.CHANGE_ID) {
-                            echo 'Dry run: ansible-playbook --check'
-                            sh "ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --check ${extraVars}"
-                        } else {
-                            echo 'Running full ansible-playbook'
-                            sh "ansible-playbook -i ansible/inventory.ini ansible/playbook.yml ${extraVars}"
-                        }
+                script {
+                    if (env.CHANGE_ID) {
+                        echo 'Dry run: ansible-playbook --check'
+                        sh "ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --check"
+                    } else {
+                        echo 'Running full ansible-playbook'
+                        sh "ansible-playbook -i ansible/inventory.ini ansible/playbook.yml"
                     }
                 }
             }
