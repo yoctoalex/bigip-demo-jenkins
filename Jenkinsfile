@@ -111,7 +111,7 @@ ${extIp}
                                     -H "Accept: application/vnd.github.v3+json" \
                                     -X POST \
                                     -d @gh_comment.json \
-                                    https://api.github.com/repos/bigip-demo-jenkins/issues/$CHANGE_ID/comments
+                                    https://api.github.com/repos/yoctoalex/bigip-demo-jenkins/issues/$CHANGE_ID/comments
                             '''
                         }
                     }
