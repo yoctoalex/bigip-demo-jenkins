@@ -100,13 +100,16 @@ ${extIp}
         _This is an automated dry run result._
         """
 
+                        def payload = groovy.json.JsonOutput.toJson([body: comment])
                         def prNumber = env.CHANGE_ID
 
+                        writeFile file: 'gh_comment.json', text: payload
+
                         sh """
-                            curl -s -H \"Authorization: token ${GITHUB_TOKEN}\" \
-                                -H \"Accept: application/vnd.github.v3+json\" \
-                                -X POST \
-                                -d '{"body": ${comment.inspect()}}' \
+                            curl -s -H "Authorization: token ${GITHUB_TOKEN}" \\
+                                -H "Accept: application/vnd.github.v3+json" \\
+                                -X POST \\
+                                -d @gh_comment.json \\
                                 https://api.github.com/repos/bigip-demo-jenkins/issues/${prNumber}/comments
                         """
                     }
