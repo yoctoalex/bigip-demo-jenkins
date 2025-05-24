@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        booleanParam(name: 'DESTROY', defaultValue: false, description: 'Destroy infrastructure instead of applying')
-    }
-
     environment {
         ANSIBLE_HOST_KEY_CHECKING = 'False'
     }
@@ -29,11 +25,7 @@ pipeline {
                         script {
                             sh 'terraform init'
 
-                            if (params.DESTROY) {
-                                echo "🧨 Manual destroy mode"
-                                sh 'terraform destroy -auto-approve'
-                                currentBuild.description = "Terraform destroy"
-                            } else if (env.CHANGE_ID) {
+                            if (env.CHANGE_ID) {
                                 echo "🔍 Pull request: plan only"
                                 sh '''
                                     terraform plan -input=false -no-color > ../tfplan.txt
@@ -53,9 +45,6 @@ pipeline {
         }
 
         stage('Generate Ansible Inventory') {
-            when {
-                expression { !params.DESTROY }
-            }
             steps {
                 script {
                     def tfOutput = readJSON file: 'terraform-output.json'
@@ -77,7 +66,6 @@ ${extIp}
         stage('Run Ansible') {
             when {
                 allOf {
-                    expression { !params.DESTROY }
                     expression { fileExists('terraform-output.json') }
                 }
             }
@@ -99,7 +87,7 @@ ${extIp}
 
         stage('Comment on Pull Request') {
             when {
-                expression { env.CHANGE_ID != null && !params.DESTROY }
+                expression { env.CHANGE_ID != null }
             }
             steps {
                 withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {

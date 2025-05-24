@@ -18,9 +18,7 @@ resource "aws_instance" "big_ip" {
     device_index         = 2
   }
 
-  user_data = templatefile("${path.module}/templates/userdata.tpl", {
-    admin_password = var.bigip_admin_password
-  })
+  user_data                   = file("${path.module}/userdata.sh")
   user_data_replace_on_change = true
   
   tags = merge(var.tags, { "Name" = "bigip", "CostCenter" = "f5lab" })
@@ -38,7 +36,7 @@ resource "null_resource" "wait_for_bigip_http" {
 
     command = <<-EOT
       retries=0
-      max_retries=30
+      max_retries=10
       until [ "$(curl -sk -u "$BIGIP_USER:$BIGIP_PASSWORD" https://$AWS_EIP/mgmt/shared/echo -o /dev/null -w "%%{http_code}")" -eq 200 ]; do
         echo "Waiting for BIG-IP to be ready (attempt: $((retries+1)))..."
         sleep 10
