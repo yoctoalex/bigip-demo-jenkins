@@ -71,6 +71,7 @@ ${extIp}
             }
             steps {
                 script {
+                    sh 'ansible-galaxy install -r ansible/requirements.yml'
                     if (env.CHANGE_ID) {
                         echo 'Dry run: ansible-playbook --check'
                         sh "ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --check"
