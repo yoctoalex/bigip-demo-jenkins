@@ -105,13 +105,15 @@ ${extIp}
 
                         writeFile file: 'gh_comment.json', text: payload
 
-                        sh """
-                            curl -s -H "Authorization: token ${GITHUB_TOKEN}" \\
-                                -H "Accept: application/vnd.github.v3+json" \\
-                                -X POST \\
-                                -d @gh_comment.json \\
-                                https://api.github.com/repos/bigip-demo-jenkins/issues/${prNumber}/comments
-                        """
+                        withEnv(["GH_TOKEN=${GITHUB_TOKEN}"]) {
+                            sh '''
+                                curl -s -H "Authorization: token $GH_TOKEN" \
+                                    -H "Accept: application/vnd.github.v3+json" \
+                                    -X POST \
+                                    -d @gh_comment.json \
+                                    https://api.github.com/repos/bigip-demo-jenkins/issues/$CHANGE_ID/comments
+                            '''
+                        }
                     }
                 }
             }
