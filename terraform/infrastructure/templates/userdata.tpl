@@ -2,7 +2,7 @@
 
 function checkStatus() {
   count=1
-  sleep 10;
+  sleep 10
   STATUS=$(cat /var/prompt/ps1)
   while [[ ${STATUS}x != 'Active'x ]]; do
     echo -n '.'
@@ -20,7 +20,7 @@ function checkStatus() {
 
 checkStatus
 
-tmsh modify auth user admin password ${admin_password}
+tmsh modify auth user admin password '${admin_password}'
 tmsh modify auth user admin shell bash
 tmsh save /sys config
 
