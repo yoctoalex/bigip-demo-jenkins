@@ -4,13 +4,13 @@ function checkStatus() {
   count=1
   sleep 10
   STATUS=$(cat /var/prompt/ps1)
-  while [[ ${STATUS}x != 'Active'x ]]; do
+  while [[ $${STATUS}x != 'Active'x ]]; do
     echo -n '.'
     sleep 5
-    count=$((count+1))
+    count=$$((count+1))
     STATUS=$(cat /var/prompt/ps1)
 
-    if [[ $count -eq 60 ]]; then
+    if [[ $$count -eq 60 ]]; then
       checkretstatus="restart"
       return
     fi
