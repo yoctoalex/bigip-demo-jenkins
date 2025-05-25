@@ -1,21 +1,4 @@
-resource "aws_instance" "webserver_1" {
-  ami                         = "ami-04f7a54071e74f488"
-  instance_type               = "t2.micro"
-  key_name                    = var.aws_key_name
 
-  network_interface {
-    network_interface_id = aws_network_interface.webserver_1.id
-    device_index         = 0
-  }
-
-  user_data = <<-EOF
-    #!/bin/bash
-    apt-get update -y
-    apt-get install -y nginx
-  EOF
-  
-  tags = merge(var.tags, { "Name" = "webserver_1" })
-}
 
 resource "aws_instance" "webserver_2" {
   ami                         = "ami-04f7a54071e74f488"
