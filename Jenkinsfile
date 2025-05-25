@@ -56,15 +56,14 @@ pipeline {
                             if (env.CHANGE_ID) {
                                 echo "🔍 Pull request: plan only"
                                 sh '''
-                                    terraform plan -input=false -no-color -out=tfplan
-                                    terraform show -json tfplan > ../tfplan.json
-                                    [ -f terraform.tfstate ] && terraform output -json > ../terraform-output.json || echo "{}" > ../terraform-output.json
+                                    terraform plan -input=false -no-color > ../tfplan.txt
+                                    terraform output -json > ../terraform-output.json
                                 '''
                             } else {
                                 echo "✅ Apply mode"
                                 sh '''
                                     terraform apply -auto-approve -input=false -no-color
-                                    [ -f terraform.tfstate ] && terraform output -json > ../terraform-output.json || echo "{}" > ../terraform-output.json
+                                    terraform output -json > ../terraform-output.json
                                 '''
                             }
                         }
