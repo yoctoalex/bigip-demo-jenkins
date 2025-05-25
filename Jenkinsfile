@@ -110,7 +110,7 @@ ${mgmtIp} bigip_host=${mgmtIp} bigip_user=admin bigip_password=${password}
                     sh 'ansible-galaxy install -r ansible/requirements.yml'
                     if (env.CHANGE_ID) {
                         echo 'Dry run: ansible-playbook --check'
-                        sh "ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --check"
+                        sh "ansible-playbook -i -vvvvv ansible/inventory.ini ansible/playbook.yml --check"
                     } else {
                         echo 'Running full ansible-playbook'
                         sh "ansible-playbook -i ansible/inventory.ini ansible/playbook.yml"
