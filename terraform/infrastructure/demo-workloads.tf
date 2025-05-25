@@ -3,10 +3,10 @@ resource "aws_instance" "webserver_1" {
   instance_type               = "t2.micro"
   key_name                    = var.aws_key_name
 
-  subnet_id                   = aws_subnet.external.id
-  associate_public_ip_address = true
-  private_ip                  = "10.0.12.101"
-  security_groups             = [aws_security_group.webserver.id]
+  network_interface {
+    network_interface_id = aws_network_interface.webserver_1.id
+    device_index         = 0
+  }
 
   user_data = <<-EOF
     #!/bin/bash
@@ -22,10 +22,11 @@ resource "aws_instance" "webserver_2" {
   instance_type               = "t2.micro"
   key_name                    = var.aws_key_name
 
-  subnet_id                   = aws_subnet.external.id
-  associate_public_ip_address = true
-  private_ip                  = "10.0.12.102"
-  security_groups             = [aws_security_group.webserver.id]
+  network_interface {
+    network_interface_id = aws_network_interface.webserver_2.id
+    device_index         = 0
+  }
+
 
   user_data = <<-EOF
     #!/bin/bash
@@ -54,4 +55,20 @@ resource "aws_security_group" "webserver" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "aws_network_interface" "webserver_1" {
+  subnet_id       = aws_subnet.external.id
+  private_ips     = ["10.0.12.101"]
+  security_groups = ["${aws_security_group.webserver.id}"]
+
+  tags = var.tags
+}
+
+resource "aws_network_interface" "webserver_2" {
+  subnet_id       = aws_subnet.external.id
+  private_ips     = ["10.0.12.102"]
+  security_groups = ["${aws_security_group.webserver.id}"]
+
+  tags = var.tags
 }
