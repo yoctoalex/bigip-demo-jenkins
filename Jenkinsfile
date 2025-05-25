@@ -9,10 +9,6 @@ pipeline {
         skipStagesAfterUnstable()
     }
 
-    triggers {
-        // No triggers, manual or multibranch
-    }
-
     stages {
         stage('Check Branch') {
             when {
