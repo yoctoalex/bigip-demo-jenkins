@@ -56,7 +56,8 @@ pipeline {
                             if (env.CHANGE_ID) {
                                 echo "🔍 Pull request: plan only"
                                 sh '''
-                                    terraform plan -input=false -no-color > ../tfplan.txt
+                                    terraform plan -input=false -no-color -out=tfplan
+                                    terraform show -json tfplan > ../tfplan.json
                                     terraform output -json > ../terraform-output.json
                                 '''
                             } else {
