@@ -22,7 +22,7 @@
     - name: Render AS3 JSON from template
       template:
         src: templates/as3_template.json.j2
-        dest: rendered_as3.json
+        dest: "{{ playbook_dir }}/rendered_as3.json"
 
     - name: POST AS3 declaration to BIG-IP
       uri:
