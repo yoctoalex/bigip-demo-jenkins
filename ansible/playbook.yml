@@ -32,6 +32,6 @@
         password: "{{ bigip_password }}"
         force_basic_auth: yes
         body_format: json
-        body: "{{ lookup('file', 'rendered_as3.json') | from_json }}"
+        body: "{{ lookup('file', playbook_dir + '/rendered_as3.json') | from_json }}"
         validate_certs: no
         status_code: [200, 202]
