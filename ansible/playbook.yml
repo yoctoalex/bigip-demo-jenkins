@@ -26,6 +26,7 @@
         dest: "{{ playbook_dir }}/rendered_as3.json"
 
     - name: POST AS3 declaration to BIG-IP
+      delegate_to: localhost
       uri:
         url: "https://{{ bigip_host }}/mgmt/shared/appsvcs/declare"
         method: POST
