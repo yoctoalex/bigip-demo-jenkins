@@ -2,10 +2,7 @@
   hosts: bigip
   connection: local
   gather_facts: no
-  vars:
-    as3_url: "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v3.54.1/f5-appsvcs-3.54.0-7.noarch.rpm"
-    as3_rpm_remote: "/tmp/f5-appsvcs.rpm"
-
+  
   tasks:
     - name: Get iRule file list
       find:
