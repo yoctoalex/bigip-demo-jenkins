@@ -24,14 +24,14 @@
           "members": [
             {
               "servicePort": 80,
-              "serverAddresses": ["192.0.2.10"]
+              "serverAddresses": ["10.0.12.101"]
             }
           ]
         },
 
         "service": {
           "class": "Service_HTTP",
-          "virtualAddresses": ["10.0.0.101"],
+          "virtualAddresses": ["10.0.12.10"],
           "pool": "myPool",
           "iRules": [
             {% for irule_name in irule_objects.keys() %}

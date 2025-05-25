@@ -90,9 +90,6 @@ pipeline {
                     writeFile file: 'ansible/inventory.ini', text: """
 [bigip]
 ${mgmtIp} ansible_host=${mgmtIp} ansible_user=admin ansible_password=${password}
-
-[external]
-${extIp}
 """
                 }
             }
