@@ -21,8 +21,9 @@
 
     - name: Render AS3 JSON from template
       template:
-        src: templates/as3_template.json.j2
-        dest: "{{ playbook_dir }}/rendered_as3.json"
+      delegate_to: localhost
+      src: templates/as3_template.json.j2
+      dest: "{{ playbook_dir }}/rendered_as3.json"
 
     - name: POST AS3 declaration to BIG-IP
       uri:
