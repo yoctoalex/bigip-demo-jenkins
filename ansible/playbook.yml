@@ -20,10 +20,10 @@
       loop: "{{ found_irules.files }}"
 
     - name: Render AS3 JSON from template
-      delegate_to: localhost
       template:
         src: templates/as3_template.json.j2
         dest: "{{ playbook_dir }}/rendered_as3.json"
+      check_mode: no
 
     - name: POST AS3 declaration to BIG-IP
       delegate_to: localhost
